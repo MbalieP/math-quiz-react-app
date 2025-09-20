@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Math Quiz</title>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #app {
+            text-align: center;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        function App() {
+            const [state, setState] = React.useState({
+                num1: Math.ceil(Math.random() * 10),
+                num2: Math.ceil(Math.random() * 10),
+                response: "",
+                score: 0,
+                feedback: ""
+            });
+
+            function inputKeyPress(event){
+                if(event.key === "Enter"){
+                    const answer = parseInt(state.response);
+                    const correctAnswer = state.num1 + state.num2;
+                    if(answer === correctAnswer){
+                        setState({
+                            num1: Math.ceil(Math.random() * 10),
+                            num2: Math.ceil(Math.random() * 10),
+                            response: "",
+                            score: state.score + 1,
+                            feedback: "✅ Correct!"
+                        });
+                    } else {
+                        setState({
+                            ...state,
+                            response: "",
+                            feedback: `❌ Wrong! Correct answer: ${correctAnswer}`
+                        });
+                    }
+                }
+            }
+
+            function updateResponse(event){
+                setState({
+                    ...state,
+                    response: event.target.value
+                });
+            }
+
+            return (
+                <div>
+                    <h2>Math Quiz</h2>
+                    <div style={{fontSize: '24px', margin: '20px 0'}}>
+                        {state.num1} + {state.num2} = ?
+                    </div>
+                    <input 
+                        type="number"
+                        onKeyPress={inputKeyPress} 
+                        onChange={updateResponse} 
+                        value={state.response} 
+                        autoFocus
+                    />
+                    <div className="feedback">{state.feedback}</div>
+                    <div style={{marginTop: '20px'}}>Score: {state.score}</div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+</body>
+</html>

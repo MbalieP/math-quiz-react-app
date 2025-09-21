@@ -1,4 +1,4 @@
-# 🧮 React Math Quiz
+# React Math Quiz
 
 A simple interactive math quiz built with **React** that helps you practice addition. The app generates random numbers and provides immediate feedback, keeping track of your score as you answer correctly. Perfect for beginners learning React or practicing mental math!
 
